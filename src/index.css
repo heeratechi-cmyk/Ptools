@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #6366f1;
+  --color-brand-dark: #4f46e5;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f8fafc;
+  --color-text-main: #0f172a;
+  --color-text-muted: #64748b;
+  
+  --shadow-premium: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-premium-hover: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  
+  --radius-premium: 1rem;
+}
+
+@layer base {
+  body {
+    @apply antialiased selection:bg-indigo-100 selection:text-indigo-900;
+  }
+}
+
+@layer components {
+  .premium-card {
+    @apply bg-white border border-slate-200/60 rounded-2xl transition-all duration-200;
+  }
+  
+  .premium-card-hover {
+    @apply hover:border-indigo-600/20 hover:shadow-premium-hover hover:-translate-y-0.5;
+  }
+  
+  .premium-button-primary {
+    @apply px-5 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-all shadow-sm shadow-indigo-100 active:scale-[0.98];
+  }
+  
+  .premium-button-secondary {
+    @apply px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 transition-all active:scale-[0.98];
+  }
+
+  .nav-link-active {
+    @apply text-indigo-600 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-indigo-600 after:rounded-full after:content-[''];
+  }
+}
