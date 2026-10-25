@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Search, ArrowRight, Zap, Shield, Globe, MousePointer2 } from 'lucide-react';
+import { Search, ArrowRight, Zap, Shield, Globe, MousePointer2, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { TOOLS, CATEGORIES } from '../data/tools';
 import AdPlaceholder from '../components/AdPlaceholder';
@@ -69,18 +69,58 @@ export default function Home() {
               High-fidelity tools for PDF editing, image optimization, and developers. Distributed processing ensures your files never leave your device.
             </motion.p>
             
-            <motion.div variants={itemVariants} className="w-full max-w-2xl relative group">
-              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+            <motion.div variants={itemVariants} className="w-full max-w-2xl">
+              {/* Isolated search box container for perfect icon centering */}
+              <div className="relative group w-full">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors">
+                  <Search className="w-5 h-5" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Find a tool (e.g., merge pdf, compress image)"
+                  className="block w-full pl-12 pr-11 py-4 sm:py-4.5 bg-slate-50/80 hover:bg-slate-50 focus:bg-white border border-slate-200/90 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all shadow-sm text-[15px] sm:text-base leading-normal"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                    aria-label="Clear search"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+
+                {/* Dropdown positioned directly beneath the search input */}
+                {searchQuery && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl z-30 overflow-hidden text-left">
+                    {filteredTools.length > 0 ? (
+                      filteredTools.map(tool => (
+                        <Link 
+                          key={tool.id} 
+                          to={tool.href}
+                          className="flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors border-b last:border-0 border-slate-100 group"
+                        >
+                          <div className="w-11 h-11 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 group-hover:scale-105 transition-transform">
+                            <tool.icon className="w-5 h-5" />
+                          </div>
+                          <div className="text-left">
+                            <div className="text-sm font-bold text-slate-900">{tool.name}</div>
+                            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{tool.category.replace('-', ' ')}</div>
+                          </div>
+                          <ArrowRight className="w-4 h-4 ml-auto text-slate-300 group-hover:text-indigo-600 transition-colors" />
+                        </Link>
+                      ))
+                    ) : (
+                      <div className="p-8 text-sm text-slate-500 text-center font-medium italic">No tools matching "{searchQuery}"</div>
+                    )}
+                  </div>
+                )}
               </div>
-              <input
-                type="text"
-                placeholder="Find a tool (e.g., merge pdf, compress image)"
-                className="block w-full pl-13 pr-4 py-5 bg-slate-50 border border-slate-200/80 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all shadow-sm"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
               
+              {/* Popular tags below search box */}
               <div className="mt-4 flex flex-wrap justify-center gap-2 items-center">
                 <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-2">Popular:</span>
                 {SUGGESTED_SEARCHES.map(term => (
@@ -93,31 +133,6 @@ export default function Home() {
                   </button>
                 ))}
               </div>
-
-              {searchQuery && (
-                <div className="absolute top-full left-0 right-0 mt-3 bg-white border border-slate-200 rounded-2xl shadow-2xl z-20 overflow-hidden">
-                  {filteredTools.length > 0 ? (
-                    filteredTools.map(tool => (
-                      <Link 
-                        key={tool.id} 
-                        to={tool.href}
-                        className="flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors border-b last:border-0 border-slate-100 group"
-                      >
-                        <div className="w-11 h-11 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 group-hover:scale-105 transition-transform">
-                          <tool.icon className="w-5 h-5" />
-                        </div>
-                        <div className="text-left">
-                          <div className="text-sm font-bold text-slate-900">{tool.name}</div>
-                          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{tool.category.replace('-', ' ')}</div>
-                        </div>
-                        <ArrowRight className="w-4 h-4 ml-auto text-slate-300 group-hover:text-indigo-600 transition-colors" />
-                      </Link>
-                    ))
-                  ) : (
-                    <div className="p-8 text-sm text-slate-500 text-center font-medium italic">No tools matching "{searchQuery}"</div>
-                  )}
-                </div>
-              )}
             </motion.div>
           </motion.div>
         </div>
