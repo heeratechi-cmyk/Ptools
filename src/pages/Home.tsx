@@ -5,6 +5,8 @@ import { Search, ArrowRight, Zap, Shield, Globe, MousePointer2, X } from 'lucide
 import { motion } from 'framer-motion';
 import { TOOLS, CATEGORIES } from '../data/tools';
 import AdPlaceholder from '../components/AdPlaceholder';
+import SEOHead from '../components/SEOHead';
+import { getSEOForPath } from '../data/seoData';
 
 const SUGGESTED_SEARCHES = ['Merge PDF', 'Compress Image', 'WebP Converter', 'JSON Formatter'];
 
@@ -37,13 +39,15 @@ export default function Home() {
   ).slice(0, 6);
 
   const popularTools = TOOLS.filter(tool => tool.popular).slice(0, 6);
+  const homeSeo = getSEOForPath('/');
 
   return (
     <div className="bg-white">
-      <Helmet>
-        <title>PixelTools – Professional Online PDF & Image Utilities</title>
-        <meta name="description" content="Access professional online tools for PDF, images, and developer utilities. Fast, free, and privacy-focused." />
-      </Helmet>
+      <SEOHead
+        title={homeSeo.title}
+        description={homeSeo.description}
+        path="/"
+      />
       
       <AdPlaceholder id="home-top" variant="horizontal" className="mt-6 mb-0" />
 

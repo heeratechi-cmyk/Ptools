@@ -1,14 +1,18 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { AlertTriangle } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
+import { getSEOForPath } from '../data/seoData';
 
 export default function Disclaimer() {
+  const seo = getSEOForPath('/disclaimer');
+
   return (
     <div className="bg-white py-16 sm:py-24">
-      <Helmet>
-        <title>Disclaimer – PixelTools</title>
-        <meta name="description" content="Legal disclaimer for PixelTools." />
-      </Helmet>
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        path={seo.path}
+      />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">

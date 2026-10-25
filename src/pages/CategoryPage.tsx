@@ -1,17 +1,18 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { CATEGORIES, TOOLS } from '../data/tools';
 import { ArrowLeft, ChevronRight, MousePointer2, Shield } from 'lucide-react';
 import AdPlaceholder from '../components/AdPlaceholder';
+import SEOHead from '../components/SEOHead';
+import { getSEOForPath } from '../data/seoData';
 
 export default function CategoryPage() {
   const { category } = useParams();
   const categoryData = CATEGORIES.find(c => c.id === category);
   const categoryTools = TOOLS.filter(t => t.category === category);
 
-  if (!categoryData) {
+  if (!categoryData || !category) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-32 text-center">
         <h1 className="text-3xl font-extrabold text-slate-900 mb-6 tracking-tight">Resource Not Found</h1>
@@ -25,13 +26,15 @@ export default function CategoryPage() {
   }
 
   const Icon = categoryData.icon;
+  const seo = getSEOForPath(`/${category}`);
 
   return (
     <div className="bg-white min-h-screen">
-      <Helmet>
-        <title>{categoryData.name} – Professional Utilities | PixelTools</title>
-        <meta name="description" content={categoryData.description} />
-      </Helmet>
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        path={seo.path}
+      />
 
       <div className="bg-slate-50/50 border-b border-slate-200/60 pt-16 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

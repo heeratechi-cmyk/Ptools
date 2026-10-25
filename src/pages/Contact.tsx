@@ -1,7 +1,8 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Send, CheckCircle2, Loader2, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEOHead from '../components/SEOHead';
+import { getSEOForPath } from '../data/seoData';
 
 export default function Contact() {
   const [status, setStatus] = React.useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -78,12 +79,15 @@ export default function Contact() {
     }
   };
 
+  const seo = getSEOForPath('/contact');
+
   return (
     <div className="bg-slate-50/50 py-12 sm:py-16 flex items-center justify-center">
-      <Helmet>
-        <title>Contact Us – PixelTools</title>
-        <meta name="description" content="Get in touch with the PixelTools team for support, feature requests, or feedback." />
-      </Helmet>
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        path={seo.path}
+      />
       
       <div className="max-w-2xl w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">

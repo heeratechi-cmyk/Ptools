@@ -1,9 +1,10 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { TOOLS } from '../data/tools';
 import { ArrowLeft, Share2, Info, MessageSquare } from 'lucide-react';
 import AdPlaceholder from '../components/AdPlaceholder';
+import SEOHead from '../components/SEOHead';
+import { getSEOForPath } from '../data/seoData';
 
 // Tool Components (to be implemented)
 import TextToPdf from '../tools/pdf/TextToPdf';
@@ -72,44 +73,47 @@ export default function ToolPage() {
     );
   }
 
+  const seo = getSEOForPath(`/tools/${tool.id}`);
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `Is the ${tool.name} free to use?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, all tools on PixelTools are 100% free with no hidden costs, watermarks, or subscription requirements."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. We use browser-native processing, meaning your files never leave your computer. We don't store or even see your data."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What devices are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PixelTools works on all modern devices, including mobile phones, tablets, and desktops running any operating system."
+        }
+      }
+    ]
+  };
+
   return (
     <div className="bg-slate-50 min-h-screen">
-      <Helmet>
-        <title>{tool.name} – Free Online Tool | PixelTools</title>
-        <meta name="description" content={tool.description} />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": `Is the ${tool.name} free to use?`,
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes, all tools on PixelTools are 100% free with no hidden costs, watermarks, or subscription requirements."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Is my data secure?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Absolutely. We use browser-native processing, meaning your files never leave your computer. We don't store or even see your data."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "What devices are supported?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "PixelTools works on all modern devices, including mobile phones, tablets, and desktops running any operating system."
-                }
-              }
-            ]
-          })}
-        </script>
-      </Helmet>
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        path={seo.path}
+        schema={faqSchema}
+      />
 
       <div className="bg-white border-b border-slate-200 pt-8 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

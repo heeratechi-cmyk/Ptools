@@ -1,13 +1,17 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '../components/SEOHead';
+import { getSEOForPath } from '../data/seoData';
 
 export default function Terms() {
+  const seo = getSEOForPath('/terms');
+
   return (
     <div className="bg-white py-16 sm:py-24">
-      <Helmet>
-        <title>Terms of Service – PixelTools</title>
-        <meta name="description" content="Read the terms and conditions for using PixelTools." />
-      </Helmet>
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        path={seo.path}
+      />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">

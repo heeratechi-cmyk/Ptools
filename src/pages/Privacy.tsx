@@ -1,15 +1,19 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Shield, Lock, Eye, CheckCircle } from 'lucide-react';
 import AdPlaceholder from '../components/AdPlaceholder';
+import SEOHead from '../components/SEOHead';
+import { getSEOForPath } from '../data/seoData';
 
 export default function Privacy() {
+  const seo = getSEOForPath('/privacy');
+
   return (
     <div className="bg-white py-16 sm:py-24">
-      <Helmet>
-        <title>Privacy Policy – PixelTools</title>
-        <meta name="description" content="Learn about how PixelTools protects your privacy and handles your data." />
-      </Helmet>
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        path={seo.path}
+      />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">

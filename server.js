@@ -4,7 +4,13 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __commonJS = (cb, mod) => function __require() {
+var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
+  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
+}) : x)(function(x) {
+  if (typeof require !== "undefined") return require.apply(this, arguments);
+  throw Error('Dynamic require of "' + x + '" is not supported');
+});
+var __commonJS = (cb, mod) => function __require2() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __copyProps = (to, from, except, desc) => {
@@ -26,11 +32,11 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 
 // node_modules/dotenv/lib/main.js
 var require_main = __commonJS({
-  "node_modules/dotenv/lib/main.js"(exports2, module2) {
-    var fs = require("fs");
-    var path2 = require("path");
-    var os = require("os");
-    var crypto = require("crypto");
+  "node_modules/dotenv/lib/main.js"(exports, module) {
+    var fs = __require("fs");
+    var path2 = __require("path");
+    var os = __require("os");
+    var crypto = __require("crypto");
     var TIPS = [
       "\u25C8 encrypted .env [www.dotenvx.com]",
       "\u25C8 secrets for agents [www.dotenvx.com]",
@@ -332,30 +338,29 @@ var require_main = __commonJS({
       parse,
       populate
     };
-    module2.exports.configDotenv = DotenvModule.configDotenv;
-    module2.exports._configVault = DotenvModule._configVault;
-    module2.exports._parseVault = DotenvModule._parseVault;
-    module2.exports.config = DotenvModule.config;
-    module2.exports.decrypt = DotenvModule.decrypt;
-    module2.exports.parse = DotenvModule.parse;
-    module2.exports.populate = DotenvModule.populate;
-    module2.exports = DotenvModule;
+    module.exports.configDotenv = DotenvModule.configDotenv;
+    module.exports._configVault = DotenvModule._configVault;
+    module.exports._parseVault = DotenvModule._parseVault;
+    module.exports.config = DotenvModule.config;
+    module.exports.decrypt = DotenvModule.decrypt;
+    module.exports.parse = DotenvModule.parse;
+    module.exports.populate = DotenvModule.populate;
+    module.exports = DotenvModule;
   }
 });
 
 // server.ts
-var import_express = __toESM(require("express"), 1);
 var import_dotenv = __toESM(require_main(), 1);
-var import_path = __toESM(require("path"), 1);
-var import_url = require("url");
-var import_vite = require("vite");
-var import_meta = {};
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import { createServer as createViteServer } from "vite";
 import_dotenv.default.config();
-var __dirname = import_path.default.dirname((0, import_url.fileURLToPath)(import_meta.url));
+var __dirname = path.dirname(fileURLToPath(import.meta.url));
 var isProd = process.env.NODE_ENV === "production";
 async function createServer() {
-  const app = (0, import_express.default)();
-  app.use(import_express.default.json());
+  const app = express();
+  app.use(express.json());
   app.post("/api/contact", async (req, res) => {
     try {
       const { firstName, lastName, email, message } = req.body;
@@ -374,11 +379,11 @@ async function createServer() {
       console.log(`[Contact] New submission from ${senderName} (${email}):`, message);
       try {
         const fs = await import("fs");
-        const logsDir = import_path.default.join(__dirname, "data");
+        const logsDir = path.join(__dirname, "data");
         if (!fs.existsSync(logsDir)) {
           fs.mkdirSync(logsDir, { recursive: true });
         }
-        const logFile = import_path.default.join(logsDir, "contact_messages.json");
+        const logFile = path.join(logsDir, "contact_messages.json");
         let currentLogs = [];
         if (fs.existsSync(logFile)) {
           try {
@@ -451,16 +456,108 @@ async function createServer() {
       return res.status(500).json({ error: "Server error processing contact form" });
     }
   });
+  app.set("trust proxy", 1);
+  const sitemapPages = [
+    { path: "/", priority: "1.0", changefreq: "daily" },
+    { path: "/pdf-tools", priority: "0.8", changefreq: "weekly" },
+    { path: "/image-tools", priority: "0.8", changefreq: "weekly" },
+    { path: "/text-tools", priority: "0.8", changefreq: "weekly" },
+    { path: "/developer-tools", priority: "0.8", changefreq: "weekly" },
+    { path: "/calculator-tools", priority: "0.8", changefreq: "weekly" },
+    { path: "/tools/text-to-pdf", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/image-to-pdf", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/merge-pdf", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/split-pdf", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/compress-pdf", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/pdf-watermark", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/pdf-page-counter", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/image-compressor", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/image-resizer", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/jpg-to-png", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/png-to-jpg", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/webp-converter", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/image-cropper", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/word-counter", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/case-converter", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/json-formatter", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/base64-encoder", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/url-encoder", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/html-formatter", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/css-minifier", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/js-minifier", priority: "0.9", changefreq: "monthly" },
+    { path: "/tools/percentage-calculator", priority: "0.9", changefreq: "monthly" },
+    { path: "/about", priority: "0.6", changefreq: "monthly" },
+    { path: "/contact", priority: "0.6", changefreq: "monthly" },
+    { path: "/privacy", priority: "0.4", changefreq: "monthly" },
+    { path: "/terms", priority: "0.4", changefreq: "monthly" },
+    { path: "/disclaimer", priority: "0.4", changefreq: "monthly" }
+  ];
+  function buildSitemapXml(baseUrl) {
+    const today = (/* @__PURE__ */ new Date()).toISOString().split("T")[0];
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapPages.map((p) => `  <url>
+    <loc>${baseUrl}${p.path}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${p.changefreq}</changefreq>
+    <priority>${p.priority}</priority>
+  </url>`).join("\n")}
+</urlset>`;
+  }
+  function resolveRequestBaseUrl(req, forcedDomain) {
+    if (forcedDomain) {
+      return `https://${forcedDomain}`;
+    }
+    const forwardedProto = req.headers["x-forwarded-proto"]?.split(",")[0].trim();
+    const rawHost = req.headers["x-forwarded-host"]?.split(",")[0].trim() || req.get("host") || "pixeltools-tau.vercel.app";
+    const hostWithoutPort = rawHost.split(":")[0];
+    const isLocal = hostWithoutPort === "localhost" || hostWithoutPort === "127.0.0.1";
+    const effectiveHost = isLocal ? "pixeltools-tau.vercel.app" : hostWithoutPort;
+    const protocol = forwardedProto || (effectiveHost.includes("vercel.app") || effectiveHost.includes("pixeltools") ? "https" : req.protocol || "https");
+    return `${protocol}://${effectiveHost}`;
+  }
+  app.get(["/sitemap.xml", "/sitemap_index.xml"], (req, res) => {
+    const baseUrl = resolveRequestBaseUrl(req);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    return res.send(buildSitemapXml(baseUrl));
+  });
+  app.get("/sitemap-non-www.xml", (req, res) => {
+    const baseUrl = resolveRequestBaseUrl(req);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    return res.send(buildSitemapXml(baseUrl));
+  });
+  app.get("/sitemap-www.xml", (req, res) => {
+    const baseUrl = resolveRequestBaseUrl(req);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    return res.send(buildSitemapXml(baseUrl));
+  });
+  app.get("/robots.txt", (req, res) => {
+    const baseUrl = resolveRequestBaseUrl(req);
+    const robotsTxt = `User-agent: *
+Allow: /
+
+Sitemap: ${baseUrl}/sitemap.xml
+`;
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    return res.send(robotsTxt);
+  });
   if (!isProd) {
-    const vite = await (0, import_vite.createServer)({
+    const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa"
     });
     app.use(vite.middlewares);
   } else {
-    app.use(import_express.default.static(import_path.default.join(__dirname, "dist")));
+    app.use(express.static(path.join(__dirname, "dist")));
     app.get("*", (req, res) => {
-      res.sendFile(import_path.default.join(__dirname, "dist", "index.html"));
+      res.sendFile(path.join(__dirname, "dist", "index.html"));
     });
   }
   const port = process.env.PORT || 3e3;

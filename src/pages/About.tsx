@@ -1,15 +1,19 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Zap, Shield, Users, Award } from 'lucide-react';
 import AdPlaceholder from '../components/AdPlaceholder';
+import SEOHead from '../components/SEOHead';
+import { getSEOForPath } from '../data/seoData';
 
 export default function About() {
+  const seo = getSEOForPath('/about');
+
   return (
     <div className="bg-white">
-      <Helmet>
-        <title>About Us – PixelTools</title>
-        <meta name="description" content="Learn more about the mission and technology behind PixelTools." />
-      </Helmet>
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        path={seo.path}
+      />
 
       {/* Hero Section */}
       <section className="py-32 bg-slate-50 relative overflow-hidden">
