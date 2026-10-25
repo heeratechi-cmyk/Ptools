@@ -162,6 +162,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ul className="space-y-3">
                 <li><NavLink to="/about" className={({isActive}) => `text-[13px] font-semibold transition-colors ${isActive ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600'}`}>About Us</NavLink></li>
                 <li><NavLink to="/contact" className={({isActive}) => `text-[13px] font-semibold transition-colors ${isActive ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600'}`}>Contact</NavLink></li>
+                <li><a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold text-slate-500 hover:text-indigo-600 transition-colors">Sitemap (XML)</a></li>
               </ul>
             </div>
             <div>

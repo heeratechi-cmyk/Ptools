@@ -120,6 +120,73 @@ async function createServer() {
     }
   });
 
+  // Dynamic XML Sitemap Generator
+  app.get('/sitemap.xml', (req, res) => {
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+    const host = req.get('host') || 'pixeltools.app';
+    const baseUrl = `${protocol}://${host}`;
+    const today = new Date().toISOString().split('T')[0];
+
+    const pages = [
+      { path: '/', priority: '1.0', changefreq: 'daily' },
+      { path: '/pdf-tools', priority: '0.8', changefreq: 'weekly' },
+      { path: '/image-tools', priority: '0.8', changefreq: 'weekly' },
+      { path: '/text-tools', priority: '0.8', changefreq: 'weekly' },
+      { path: '/developer-tools', priority: '0.8', changefreq: 'weekly' },
+      { path: '/calculator-tools', priority: '0.8', changefreq: 'weekly' },
+      { path: '/tools/text-to-pdf', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/image-to-pdf', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/merge-pdf', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/split-pdf', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/compress-pdf', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/pdf-watermark', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/pdf-page-counter', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/image-compressor', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/image-resizer', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/jpg-to-png', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/png-to-jpg', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/webp-converter', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/image-cropper', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/word-counter', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/case-converter', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/json-formatter', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/base64-encoder', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/url-encoder', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/html-formatter', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/css-minifier', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/js-minifier', priority: '0.9', changefreq: 'monthly' },
+      { path: '/tools/percentage-calculator', priority: '0.9', changefreq: 'monthly' },
+      { path: '/about', priority: '0.6', changefreq: 'monthly' },
+      { path: '/contact', priority: '0.6', changefreq: 'monthly' },
+      { path: '/privacy', priority: '0.4', changefreq: 'monthly' },
+      { path: '/terms', priority: '0.4', changefreq: 'monthly' },
+      { path: '/disclaimer', priority: '0.4', changefreq: 'monthly' },
+    ];
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map(p => `  <url>
+    <loc>${baseUrl}${p.path}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${p.changefreq}</changefreq>
+    <priority>${p.priority}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    return res.send(xml);
+  });
+
+  // Dynamic robots.txt
+  app.get('/robots.txt', (req, res) => {
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+    const host = req.get('host') || 'pixeltools.app';
+    const robotsTxt = `User-agent: *\nAllow: /\n\nSitemap: ${protocol}://${host}/sitemap.xml\n`;
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    return res.send(robotsTxt);
+  });
+
   if (!isProd) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
