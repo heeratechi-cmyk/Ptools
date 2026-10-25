@@ -548,6 +548,16 @@ Sitemap: ${baseUrl}/sitemap.xml
     res.setHeader("Cache-Control", "public, max-age=3600");
     return res.send(robotsTxt);
   });
+  const bingSiteAuthXml = `<?xml version="1.0"?>
+<users>
+	<user>F76AA711D00C7F03E89F5E480133B068</user>
+</users>`;
+  app.get(["/BingSiteAuth.xml", "/bingsiteauth.xml"], (req, res) => {
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    return res.send(bingSiteAuthXml);
+  });
   if (!isProd) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
