@@ -5,7 +5,7 @@ export default function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    // If there's a hash, let the browser handle it or scroll to that element
+    // If there's a hash, smoothly scroll to that element
     if (hash) {
       const id = hash.replace('#', '');
       const element = document.getElementById(id);
@@ -15,12 +15,28 @@ export default function ScrollToTop() {
       }
     }
 
-    // Otherwise, scroll to the top of the page on route change
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'instant', // Use 'instant' for immediate reset, transitions will handle visual feedback
+    // Reset scroll immediately
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // Follow-up after layout paint to counter any Framer Motion exit shift
+    const raf = requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     });
+
+    const timer = setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 200);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
+    };
   }, [pathname, hash]);
 
   return null;

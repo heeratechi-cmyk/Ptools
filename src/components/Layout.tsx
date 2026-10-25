@@ -25,10 +25,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
           {/* Zone 1: Brand Wordmark (Single element) */}
           <Link to="/" className="flex items-center gap-2.5 text-xl font-bold tracking-tight text-slate-900 whitespace-nowrap shrink-0 group">
-            <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white transition-transform group-hover:scale-105 shadow-sm shadow-indigo-200">
-              <Layers className="w-5 h-5" />
-            </div>
-            <span>PixelTools</span>
+            <img 
+              src="/logo.png" 
+              alt="PixelTools Logo" 
+              className="w-9 h-9 object-contain rounded-xl shadow-sm transition-transform duration-200 group-hover:scale-105" 
+            />
+            <span className="font-extrabold tracking-tight">PixelTools</span>
           </Link>
 
           {/* Zone 2: Navigation Links (4-5 items, concise) */}
@@ -102,13 +104,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="flex-1">
-        <AnimatePresence mode="wait">
+        <AnimatePresence 
+          mode="wait"
+          onExitComplete={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+          }}
+        >
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as any }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] as any }}
             className="min-h-full"
           >
             {children}
@@ -120,8 +129,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
             <div className="col-span-2 lg:col-span-2">
-              <Link to="/" className="text-xl font-bold tracking-tight text-slate-900 mb-5 block">
-                PixelTools
+              <Link to="/" className="flex items-center gap-2.5 text-xl font-bold tracking-tight text-slate-900 mb-5 group">
+                <img 
+                  src="/logo.png" 
+                  alt="PixelTools Logo" 
+                  className="w-8 h-8 object-contain rounded-lg shadow-sm transition-transform duration-200 group-hover:scale-105" 
+                />
+                <span className="font-extrabold tracking-tight">PixelTools</span>
               </Link>
               <p className="text-slate-500 text-[13px] max-w-xs mb-8 leading-relaxed font-medium">
                 Professional online utilities for modern digital workflows. 100% free, private, and powered by browser-native technology.

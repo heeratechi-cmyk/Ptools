@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 
 export default function Terms() {
   return (
-    <div className="bg-white min-h-screen py-24">
+    <div className="bg-white py-16 sm:py-24">
       <Helmet>
         <title>Terms of Service – PixelTools</title>
         <meta name="description" content="Read the terms and conditions for using PixelTools." />

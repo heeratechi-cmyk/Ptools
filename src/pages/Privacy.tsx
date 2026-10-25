@@ -5,7 +5,7 @@ import AdPlaceholder from '../components/AdPlaceholder';
 
 export default function Privacy() {
   return (
-    <div className="bg-white min-h-screen py-24">
+    <div className="bg-white py-16 sm:py-24">
       <Helmet>
         <title>Privacy Policy – PixelTools</title>
         <meta name="description" content="Learn about how PixelTools protects your privacy and handles your data." />

@@ -5,7 +5,7 @@ import AdPlaceholder from '../components/AdPlaceholder';
 
 export default function About() {
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white">
       <Helmet>
         <title>About Us – PixelTools</title>
         <meta name="description" content="Learn more about the mission and technology behind PixelTools." />

@@ -4,7 +4,7 @@ import { AlertTriangle } from 'lucide-react';
 
 export default function Disclaimer() {
   return (
-    <div className="bg-white min-h-screen py-24">
+    <div className="bg-white py-16 sm:py-24">
       <Helmet>
         <title>Disclaimer – PixelTools</title>
         <meta name="description" content="Legal disclaimer for PixelTools." />
