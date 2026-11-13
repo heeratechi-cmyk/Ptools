@@ -254,10 +254,17 @@ export default function Home() {
               <div className="w-15 h-15 bg-indigo-800/80 rounded-2xl flex items-center justify-center mb-8 border border-indigo-700/50 backdrop-blur-sm">
                 <Globe className="w-7 h-7 text-indigo-300" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 tracking-tight">Enterprise Availability</h3>
-              <p className="text-indigo-200/80 leading-relaxed font-medium text-[15px]">
-                100% free, always online, and accessible from any modern browser without accounts or subscriptions.
+              <h3 className="text-2xl font-bold mb-4 tracking-tight">Free & Pro Plans</h3>
+              <p className="text-indigo-200/80 leading-relaxed font-medium text-[15px] mb-4">
+                Start 100% free in any browser, or upgrade to PixelTools Pro for an ad-free workspace and batch tools.
               </p>
+              <Link
+                to="/pricing"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-indigo-200 transition-colors"
+              >
+                <span>View Pricing Plans</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </div>

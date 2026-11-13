@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "cleanUrls": true,
   "headers": [
     {
@@ -40,7 +42,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!api/|assets/|favicon|logo|ads\\.txt|robots\\.txt|sitemap.*\\.xml|BingSiteAuth\\.xml|bingsiteauth\\.xml|.*\\.(?:xml|txt|png|jpg|jpeg|ico|svg|json|webmanifest)).*)/?",
+      "source": "/((?!api/|assets/|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]
