@@ -152,6 +152,11 @@ const PAGES = [
     description: 'Calculate percentages, percentage change, markups, and discounts instantly.'
   },
   {
+    path: '/pricing',
+    title: 'Pricing & Pro Plans – Upgrade with Stripe | PixelTools',
+    description: 'Simple monthly, annual, or lifetime plans for an ad-free PixelTools workspace powered by Stripe.'
+  },
+  {
     path: '/about',
     title: 'About Us – Secure Browser Tools Mission | PixelTools',
     description: 'Learn about PixelTools, our commitment to 100% private client-side browser utilities.'
