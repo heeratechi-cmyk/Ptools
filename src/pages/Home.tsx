@@ -41,6 +41,19 @@ export default function Home() {
   const popularTools = TOOLS.filter(tool => tool.popular).slice(0, 6);
   const homeSeo = getSEOForPath('/');
 
+  const [hasProLicense, setHasProLicense] = React.useState(false);
+
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem('pixeltools_pro_license');
+      if (saved && JSON.parse(saved)?.active) {
+        setHasProLicense(true);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   return (
     <div className="bg-white">
       <SEOHead
@@ -49,7 +62,21 @@ export default function Home() {
         path="/"
       />
       
-      <AdPlaceholder id="home-top" variant="horizontal" className="mt-6 mb-0" />
+      {!hasProLicense && (
+        <div className="flex flex-col items-center mt-6 mb-0 px-4 w-full">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+            Advertisement
+          </span>
+          <a href="" rel="nofollow" className="inline-block max-w-full">
+            <img
+              alt="banner"
+              src="https://landings-cdn.adsterratech.com/referralBanners/gif/468x60_adsterra_reff.gif"
+              referrerPolicy="no-referrer"
+              className="w-[468px] max-w-full h-auto rounded-lg"
+            />
+          </a>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 overflow-hidden border-b border-slate-50">
