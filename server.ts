@@ -362,6 +362,84 @@ async function createServer() {
     }
   });
 
+  // Google reCAPTCHA configuration discovery
+  app.get('/api/recaptcha/config', (_req, res) => {
+    const siteKey =
+      process.env.VITE_RECAPTCHA_SITE_KEY?.trim() ||
+      process.env.RECAPTCHA_SITE_KEY?.trim() ||
+      null;
+    return res.json({
+      configured: Boolean(siteKey) && Boolean(process.env.RECAPTCHA_SECRET_KEY?.trim()),
+      siteKey,
+    });
+  });
+
+  // Verify Google reCAPTCHA token server-side before unlocking any tool
+  app.post('/api/recaptcha/verify', async (req, res) => {
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY?.trim();
+    if (!secretKey) {
+      return res.status(503).json({
+        verified: false,
+        error: 'reCAPTCHA secret key is not configured on the server.',
+        code: 'RECAPTCHA_NOT_CONFIGURED',
+      });
+    }
+
+    try {
+      const token = typeof req.body?.token === 'string' ? req.body.token.trim() : '';
+      if (!token) {
+        return res.status(400).json({
+          verified: false,
+          error: 'Verification required: Please complete the reCAPTCHA check first before using this tool.',
+        });
+      }
+
+      const params = new URLSearchParams();
+      params.append('secret', secretKey);
+      params.append('response', token);
+
+      const forwardedFor = (req.headers['x-forwarded-for'] as string | undefined)?.split(',')[0]?.trim();
+      if (forwardedFor) {
+        params.append('remoteip', forwardedFor);
+      }
+
+      const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
+      });
+
+      const data = (await verifyRes.json()) as {
+        success: boolean;
+        challenge_ts?: string;
+        hostname?: string;
+        'error-codes'?: string[];
+      };
+
+      if (!data.success) {
+        return res.status(400).json({
+          verified: false,
+          error: 'reCAPTCHA verification failed or expired. Please complete the check again.',
+          errorCodes: data['error-codes'] || [],
+        });
+      }
+
+      return res.json({
+        verified: true,
+        hostname: data.hostname || null,
+        challengeTs: data.challenge_ts || null,
+      });
+    } catch (err: any) {
+      console.error('[reCAPTCHA] verify error:', err);
+      return res.status(500).json({
+        verified: false,
+        error: 'Unable to verify reCAPTCHA right now. Please try again.',
+      });
+    }
+  });
+
   // Contact form submission proxy with multi-channel email delivery
   app.post('/api/contact', async (req, res) => {
     try {

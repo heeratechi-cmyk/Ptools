@@ -4,6 +4,7 @@ import { TOOLS } from '../data/tools';
 import { ArrowLeft, Share2, Info, MessageSquare } from 'lucide-react';
 import AdPlaceholder from '../components/AdPlaceholder';
 import SEOHead from '../components/SEOHead';
+import RecaptchaGate from '../components/RecaptchaGate';
 import { getSEOForPath } from '../data/seoData';
 
 // Tool Components (to be implemented)
@@ -150,7 +151,9 @@ export default function ToolPage() {
             <AdPlaceholder id="tool-top" variant="horizontal" className="mt-0 mb-8" />
             {ToolComponent ? (
               <div className="premium-card overflow-hidden min-h-[400px]">
-                <ToolComponent />
+                <RecaptchaGate key={tool.id} toolId={tool.id} toolName={tool.name}>
+                  <ToolComponent />
+                </RecaptchaGate>
               </div>
             ) : (
               <div className="premium-card p-12 text-center">
