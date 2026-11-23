@@ -148,7 +148,6 @@ export default function ToolPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="lg:col-span-9">
-            <AdPlaceholder id="tool-top" variant="horizontal" className="mt-0 mb-8" />
             {ToolComponent ? (
               <div className="premium-card overflow-hidden min-h-[400px]">
                 <RecaptchaGate key={tool.id} toolId={tool.id} toolName={tool.name}>

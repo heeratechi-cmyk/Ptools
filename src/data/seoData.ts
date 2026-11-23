@@ -162,22 +162,7 @@ export const PAGE_SEO_REGISTRY: Record<string, PageSEO> = {
     description: 'Calculate percentages, percentage change, markups, and discounts instantly.'
   },
 
-  // Company, Pricing & Legal Pages
-  '/pricing': {
-    path: '/pricing',
-    title: 'Pricing & Pro Plans – Upgrade with Stripe | PixelTools',
-    description: 'Simple monthly, annual, or lifetime plans for an ad-free PixelTools workspace powered by Stripe.'
-  },
-  '/payment/success': {
-    path: '/payment/success',
-    title: 'Payment Confirmation | PixelTools',
-    description: 'Verify your Stripe payment receipt and PixelTools Pro activation.'
-  },
-  '/payment/cancel': {
-    path: '/payment/cancel',
-    title: 'Checkout Cancelled | PixelTools',
-    description: 'Your Stripe checkout session was cancelled with no charge.'
-  },
+  // Company & Legal Pages
   '/about': {
     path: '/about',
     title: 'About Us – Secure Browser Tools Mission | PixelTools',

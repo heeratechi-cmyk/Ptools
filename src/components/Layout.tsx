@@ -8,7 +8,6 @@ const navigation = [
   { name: 'Image Tools', href: '/image-tools' },
   { name: 'Text Tools', href: '/text-tools' },
   { name: 'Developer Tools', href: '/developer-tools' },
-  { name: 'Pricing', href: '/pricing' },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -161,7 +160,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-6">Resources</h4>
               <ul className="space-y-3">
-                <li><NavLink to="/pricing" className={({isActive}) => `text-[13px] font-semibold transition-colors ${isActive ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600'}`}>Pricing & Pro</NavLink></li>
                 <li><NavLink to="/about" className={({isActive}) => `text-[13px] font-semibold transition-colors ${isActive ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600'}`}>About Us</NavLink></li>
                 <li><NavLink to="/contact" className={({isActive}) => `text-[13px] font-semibold transition-colors ${isActive ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600'}`}>Contact</NavLink></li>
                 <li><a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold text-slate-500 hover:text-indigo-600 transition-colors">Sitemap (XML)</a></li>

@@ -5,9 +5,6 @@ import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import ToolPage from './pages/ToolPage';
 import CategoryPage from './pages/CategoryPage';
-import Pricing from './pages/Pricing';
-import PaymentSuccess from './pages/PaymentSuccess';
-import PaymentCancel from './pages/PaymentCancel';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
@@ -22,9 +19,6 @@ export default function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/payment/success" element={<PaymentSuccess />} />
-            <Route path="/payment/cancel" element={<PaymentCancel />} />
             <Route path="/:category" element={<CategoryPage />} />
             <Route path="/tools/:toolId" element={<ToolPage />} />
             <Route path="/about" element={<About />} />

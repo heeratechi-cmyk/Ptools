@@ -1,6 +1,5 @@
 import React from 'react';
 import { Shield, Lock, Eye, CheckCircle } from 'lucide-react';
-import AdPlaceholder from '../components/AdPlaceholder';
 import SEOHead from '../components/SEOHead';
 import { getSEOForPath } from '../data/seoData';
 
@@ -25,9 +24,7 @@ export default function Privacy() {
             We believe privacy is a fundamental human right. PixelTools is built from the ground up to respect your data.
           </p>
         </div>
-        
-        <AdPlaceholder id="privacy-top" variant="horizontal" className="mb-16" />
-        
+
         <div className="bg-slate-900 rounded-[2.5rem] p-10 mb-20 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-indigo-600 opacity-10 blur-[80px] pointer-events-none" />
           <div className="w-20 h-20 bg-indigo-500/10 rounded-3xl flex items-center justify-center text-indigo-400 shrink-0 border border-indigo-500/20">

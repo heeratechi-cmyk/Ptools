@@ -16,19 +16,6 @@ export default function AdPlaceholder({
   label = "Advertisement",
   showLabel = true
 }: AdPlaceholderProps) {
-  const [hasProLicense, setHasProLicense] = React.useState(false);
-
-  React.useEffect(() => {
-    try {
-      const saved = localStorage.getItem('pixeltools_pro_license');
-      if (saved && JSON.parse(saved)?.active) {
-        setHasProLicense(true);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
   const isAdSenseActive = ADSENSE_CONFIG.publisherId !== "" && (ADSENSE_CONFIG.slots as any)[id] !== "";
 
   // Dynamic styling based on variant
@@ -58,7 +45,7 @@ export default function AdPlaceholder({
 
   // Google AdSense Effect
   React.useEffect(() => {
-    if (ADSENSE_CONFIG.enabled && !hasProLicense && isAdSenseActive) {
+    if (ADSENSE_CONFIG.enabled && isAdSenseActive) {
       try {
         // @ts-ignore
         (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -66,10 +53,10 @@ export default function AdPlaceholder({
         console.error("AdSense Error:", e);
       }
     }
-  }, [isAdSenseActive, id, hasProLicense]);
+  }, [isAdSenseActive, id]);
 
-  // If ads are disabled globally or user upgraded to Pro via Stripe
-  if (!ADSENSE_CONFIG.enabled || hasProLicense) return null;
+  // If ads are disabled globally
+  if (!ADSENSE_CONFIG.enabled) return null;
 
   return (
     <div className={`flex flex-col items-center my-8 w-full ${className}`}>

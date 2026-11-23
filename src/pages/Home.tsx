@@ -41,19 +41,6 @@ export default function Home() {
   const popularTools = TOOLS.filter(tool => tool.popular).slice(0, 6);
   const homeSeo = getSEOForPath('/');
 
-  const [hasProLicense, setHasProLicense] = React.useState(false);
-
-  React.useEffect(() => {
-    try {
-      const saved = localStorage.getItem('pixeltools_pro_license');
-      if (saved && JSON.parse(saved)?.active) {
-        setHasProLicense(true);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
   return (
     <div className="bg-white">
       <SEOHead
@@ -61,22 +48,6 @@ export default function Home() {
         description={homeSeo.description}
         path="/"
       />
-      
-      {!hasProLicense && (
-        <div className="flex flex-col items-center mt-6 mb-0 px-4 w-full">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
-            Advertisement
-          </span>
-          <a href="" rel="nofollow" className="inline-block max-w-full">
-            <img
-              alt="banner"
-              src="https://landings-cdn.adsterratech.com/referralBanners/gif/468x60_adsterra_reff.gif"
-              referrerPolicy="no-referrer"
-              className="w-[468px] max-w-full h-auto rounded-lg"
-            />
-          </a>
-        </div>
-      )}
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 overflow-hidden border-b border-slate-50">
@@ -281,17 +252,10 @@ export default function Home() {
               <div className="w-15 h-15 bg-indigo-800/80 rounded-2xl flex items-center justify-center mb-8 border border-indigo-700/50 backdrop-blur-sm">
                 <Globe className="w-7 h-7 text-indigo-300" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 tracking-tight">Free & Pro Plans</h3>
-              <p className="text-indigo-200/80 leading-relaxed font-medium text-[15px] mb-4">
-                Start 100% free in any browser, or upgrade to PixelTools Pro for an ad-free workspace and batch tools.
+              <h3 className="text-2xl font-bold mb-4 tracking-tight">Enterprise Availability</h3>
+              <p className="text-indigo-200/80 leading-relaxed font-medium text-[15px]">
+                100% free, always online, and accessible from any modern browser without accounts or subscriptions.
               </p>
-              <Link
-                to="/pricing"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-indigo-200 transition-colors"
-              >
-                <span>View Pricing Plans</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
             </div>
           </div>
         </div>
