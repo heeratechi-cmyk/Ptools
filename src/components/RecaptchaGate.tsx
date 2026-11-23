@@ -82,14 +82,20 @@ export default function RecaptchaGate({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, toolId }),
       });
-      const data = await res.json();
+      const rawText = await res.text();
+      let data: any = null;
+      try {
+        data = rawText ? JSON.parse(rawText) : null;
+      } catch {
+        data = null;
+      }
 
-      if (!res.ok || !data.verified) {
+      if (!res.ok || !data?.verified) {
         recaptchaRef.current?.reset();
         setToken(null);
         setError(
-          data.error ||
-            'reCAPTCHA verification failed. Please complete the check again to confirm.'
+          data?.error ||
+            `reCAPTCHA verification failed (HTTP ${res.status}). Please complete the check again to confirm.`
         );
         setVerifying(false);
         return;
@@ -100,7 +106,7 @@ export default function RecaptchaGate({
     } catch {
       recaptchaRef.current?.reset();
       setToken(null);
-      setError('Unable to verify reCAPTCHA right now. Please try confirming again.');
+      setError('Network error while verifying reCAPTCHA. Please try confirming again.');
       setVerifying(false);
     }
   };

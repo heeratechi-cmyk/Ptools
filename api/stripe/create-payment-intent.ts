@@ -1,12 +1,14 @@
 import type Stripe from 'stripe';
-import { resolvePlanPriceCents, type BillingCycle, type PlanId } from '../../src/data/plans';
 import {
   getLegacyStripeClient,
   getStripeClient,
   readJsonBody,
+  resolvePlanPriceCents,
+  type BillingCycle,
+  type PlanId,
   type VercelReq,
   type VercelRes,
-} from './_utils';
+} from './_utils.js';
 
 export default async function handler(req: VercelReq, res: VercelRes) {
   if (req.method !== 'POST') {

@@ -1,10 +1,38 @@
-import { readJsonBody, type VercelReq, type VercelRes } from '../stripe/_utils';
+import type { IncomingMessage, ServerResponse } from 'node:http';
+
+type VercelReq = IncomingMessage & {
+  body?: any;
+};
+
+type VercelRes = ServerResponse & {
+  status: (code: number) => VercelRes;
+  json: (body: unknown) => void;
+};
 
 interface GoogleVerifyResponse {
   success: boolean;
   challenge_ts?: string;
   hostname?: string;
   'error-codes'?: string[];
+}
+
+async function parseBody(req: VercelReq): Promise<Record<string, any>> {
+  if (req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
+    return req.body;
+  }
+  if (typeof req.body === 'string') {
+    return req.body ? JSON.parse(req.body) : {};
+  }
+  if (Buffer.isBuffer(req.body)) {
+    const raw = req.body.toString('utf8');
+    return raw ? JSON.parse(raw) : {};
+  }
+  const chunks: Buffer[] = [];
+  for await (const chunk of req) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  const raw = Buffer.concat(chunks).toString('utf8');
+  return raw ? JSON.parse(raw) : {};
 }
 
 export default async function handler(req: VercelReq, res: VercelRes) {
@@ -22,7 +50,7 @@ export default async function handler(req: VercelReq, res: VercelRes) {
   }
 
   try {
-    const body = await readJsonBody(req);
+    const body = await parseBody(req);
     const token = typeof body.token === 'string' ? body.token.trim() : '';
 
     if (!token) {

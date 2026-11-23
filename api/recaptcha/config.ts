@@ -1,4 +1,10 @@
-import type { VercelReq, VercelRes } from '../stripe/_utils';
+import type { IncomingMessage, ServerResponse } from 'node:http';
+
+type VercelReq = IncomingMessage;
+type VercelRes = ServerResponse & {
+  status: (code: number) => VercelRes;
+  json: (body: unknown) => void;
+};
 
 export default function handler(req: VercelReq, res: VercelRes) {
   if (req.method !== 'GET') {

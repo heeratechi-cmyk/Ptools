@@ -1,4 +1,4 @@
-import { getPublishableKey, type VercelReq, type VercelRes } from './_utils';
+import { getPublishableKey, type VercelReq, type VercelRes } from './_utils.js';
 
 export default function handler(req: VercelReq, res: VercelRes) {
   if (req.method !== 'GET') {

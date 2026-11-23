@@ -1,5 +1,5 @@
 import type Stripe from 'stripe';
-import { getStripeClient, readRawBody, type VercelReq, type VercelRes } from './_utils';
+import { getStripeClient, readRawBody, type VercelReq, type VercelRes } from './_utils.js';
 
 export const config = {
   api: {

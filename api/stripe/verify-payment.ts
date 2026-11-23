@@ -1,4 +1,4 @@
-import { getStripeClient, type VercelReq, type VercelRes } from './_utils';
+import { getStripeClient, type VercelReq, type VercelRes } from './_utils.js';
 
 export default async function handler(req: VercelReq, res: VercelRes) {
   if (req.method !== 'GET') {
